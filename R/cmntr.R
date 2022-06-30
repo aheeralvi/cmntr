@@ -32,10 +32,12 @@ cmnt_header <- function(name, version, description, author, date, assump,
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
 
-  for(i in 2:length(wrappedText)) {
-    # Note hard-coding of indent
-    nextLine <- paste(sep="", "#*  ", wrappedText[i])
-    comment <- c(comment, nextLine)
+  if(length(wrappedText) >= 2) {
+    for(i in 2:length(wrappedText)) {
+      # Note hard-coding of indent
+      nextLine <- paste(sep="", "#*  ", wrappedText[i])
+      comment <- c(comment, nextLine)
+    }
   }
 
   nextLine <- paste(sep="", "#* AUTHOR: ", author)
@@ -49,23 +51,28 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
   nextLine <- "#* ASSUMPTIONS: "
   firstLine <- 76 - nchar(nextLine)
-  print(assump)
   wrappedText <- wrap(assump, 70, firstLine)
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
-  #
-  # for(i in 2:length(wrappedText)) {
-  #   nextLine <- paste(sep="", "#*  ", wrappedText[i])
-  #   comment <- c(comment, nextLine)
-  # }
+  print(length(wrappedText))
+
+  if(length(wrappedText) >= 2) {
+    for(i in 2:length(wrappedText)) {
+      nextLine <- paste(sep="", "#*  ", wrappedText[i])
+      comment <- c(comment, nextLine)
+    }
+  }
 
   nextLine <- "#*"
   comment <- c(comment, nextLine)
 
   nextLine <- "#* PARAMETERS:"
   comment <- c(comment, nextLine)
-  for(i in 1:length(params)) {
-    nextLine <- paste(sep="", "#* - ", params[i], ":")
+  paramNames <- names(params)
+  # print(params)
+  # print(length(paramNames))
+  for(i in 1:length(paramNames)) {
+    nextLine <- paste(sep="", "#* - ", paramNames[i], ": ", params[[i]])
     comment <- c(comment, nextLine)
   }
 
@@ -110,12 +117,11 @@ wrap <- function(str, lineLength, firstLine) {
   holder <- ""
   # print(nchar(holder))
   if(!is.null(firstLine)) {
-    print(firstLine)
-    print(nchar(holder))
-    print(nchar(words[[1]][wordCounter]) + nchar(holder) <= firstLine)
+    # print(firstLine)
+    # print(nchar(holder))
+    # print(nchar(words[[1]][wordCounter]) + nchar(holder) <= firstLine)
     while(nchar(words[[1]][wordCounter])+nchar(holder)<=firstLine
           && wordCounter <= length(words[[1]])) {
-      print("blah")
       holder <- paste(sep = "", holder, words[[1]][wordCounter])
       wordCounter <- wordCounter + 1
     }
