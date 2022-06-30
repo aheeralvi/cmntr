@@ -95,7 +95,6 @@ wrap <- function(str, lineLength, firstLine) {
   }
   # print(length(words[[1]]))
 
-  # runaway loop why
   while(wordCounter <= length(words[[1]])) {
     # print(wordCounter)
     while(nchar(words[[1]][wordCounter]) + nchar(holder) <= lineLength && wordCounter <= length(words[[1]])) {
