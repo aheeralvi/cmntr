@@ -28,14 +28,14 @@ cmnt_header <- function(name, version, description, author, date, assump,
   nextLine <- "#* DESCRIPTION: "
   # Note hard-coding of bounds below (and elsewhere with 75)
   firstLine <- 76 - nchar(nextLine)
-  wrappedText <- wrap(description, 70, firstLine)
+  wrappedText <- wrap(description, 76, firstLine, "   ")
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
 
   if(length(wrappedText) >= 2) {
     for(i in 2:length(wrappedText)) {
       # Note hard-coding of indent
-      nextLine <- paste(sep="", "#*  ", wrappedText[i])
+      nextLine <- paste(sep="", "#*", wrappedText[i])
       comment <- c(comment, nextLine)
     }
   }
@@ -51,13 +51,13 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
   nextLine <- "#* ASSUMPTIONS: "
   firstLine <- 76 - nchar(nextLine)
-  wrappedText <- wrap(assump, 70, firstLine)
+  wrappedText <- wrap(assump, 76, firstLine, "   ")
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
 
   if(length(wrappedText) >= 2) {
     for(i in 2:length(wrappedText)) {
-      nextLine <- paste(sep="", "#*  ", wrappedText[i])
+      nextLine <- paste(sep="", "#*", wrappedText[i])
       comment <- c(comment, nextLine)
     }
   }
@@ -81,17 +81,19 @@ cmnt_header <- function(name, version, description, author, date, assump,
   nextLine <- "#* INPUTS:"
   comment <- c(comment, nextLine)
 
-  # stringHolder <- ""
-  # inputCounter <- 1
-  # while(inputCounter <= length(inputs)) {
-  #   if(inputCounter == 1) {
-  #     stringHolder <- inputs[inputCounter]
-  #   }
-  #   else {
-  #     stringHolder <- paste(sep=", ", stringHolder, inputs[inputCounter])
-  #   }
-  #   inputCounter <- inputCounter + 1
-  # }
+  wrappedText <- ""
+  for(i in 1:length(inputs)) {
+    if(nchar(wrappedText) == 0) {
+      wrappedText <- inputs[i]
+    }
+    else {
+      wrappedText <- paste(sep=", ", wrappedText, inputs[i])
+    }
+  }
+  nextLine <- "#* - Datasets: "
+  # wrappedText <- wrap(wrappedText, 70, 76-nchar(nextLine))
+  # print(wrappedText)
+
 
 
   return(comment)
@@ -100,14 +102,7 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
 
 
-
-
-
-
-
-
-
-wrap <- function(str, lineLength, firstLine) {
+wrap <- function(str, lineLength, firstLine, indentStr) {
   words <- stri_split_boundaries(str)
 
   # First line
@@ -131,13 +126,13 @@ wrap <- function(str, lineLength, firstLine) {
 
   while(wordCounter <= length(words[[1]])) {
     # print(wordCounter)
-    while(nchar(words[[1]][wordCounter]) + nchar(holder) <= lineLength
+    holder <- indentStr
+    while(nchar(words[[1]][wordCounter]) + nchar(holder) <= (lineLength - nchar(indentStr) - 2)
           && wordCounter <= length(words[[1]])) {
       holder <- paste(sep="", holder, words[[1]][wordCounter])
       wordCounter <- wordCounter + 1
     }
     full <- c(full, holder)
-    holder <- ""
   }
 
   return(full)
