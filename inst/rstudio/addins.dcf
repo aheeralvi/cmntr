@@ -1,0 +1,14 @@
+Name: Insert banner comment at cursor position
+Description: Insert banner comment at cursor position in active document
+Binding: bannerCommentDialog
+Interactive: true
+
+Name: Insert or Edit a header comment
+Description: Edit existing header comment, or insert if there is none
+Binding: headerCommentDialog
+Interactive: true
+
+Name: Insert or Edit a roxygen comment
+Description: Edit existing roxygen comment, insert if there is none
+Binding: roxygenCommentDialog
+Interactive: true

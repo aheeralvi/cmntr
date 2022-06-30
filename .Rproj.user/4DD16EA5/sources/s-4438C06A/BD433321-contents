@@ -1,0 +1,45 @@
+library(shiny)
+library(miniUI)
+
+textInsert <- function() {
+
+
+  ui <- miniPage(
+
+    # see utils.R
+    includeHighlightJs(),
+
+    gadgetTitleBar("Insert Text"),
+    miniContentPanel(
+
+      # Prompt for text to insert
+      h4("Insert text below at the cursor position."),
+      stableColumnLayout(textInput("insertText", "Desired Text:")),
+
+      # Send text to current document/code
+      uiOutput("document", container = rCodeContainer)
+    )
+  )
+
+  server <- function(input, output, session) {
+
+    # Listen for pressing of done button
+    observeEvent(input$done, {
+
+      #insert text, stop the app
+      rstudioapi::insertText(input$insertText)
+      stopApp()
+    })
+  }
+
+
+  viewer <- dialogViewer("Insert Text", width = 1000, height = 800)
+  runGadget(ui, server, viewer = viewer)
+
+
+#  textFunc <- function(contents, stringInsert) {
+ #   rstudioapi::insertText(stringInsert)
+  #}
+}
+
+
