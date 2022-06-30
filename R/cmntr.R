@@ -54,7 +54,6 @@ cmnt_header <- function(name, version, description, author, date, assump,
   wrappedText <- wrap(assump, 70, firstLine)
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
-  print(length(wrappedText))
 
   if(length(wrappedText) >= 2) {
     for(i in 2:length(wrappedText)) {
