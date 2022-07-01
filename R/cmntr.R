@@ -11,7 +11,7 @@ cmnt_banner <- function(content) {
 }
 
 cmnt_header <- function(name, version, description, author, date, assump,
-                        params, inputs, outputs, dependencies) {
+                        params, inputs, outputs, dependencies, commentWidth = 76) {
   nextLine <- paste(sep="", "#", strrep("*",75))
   comment <- vector()
   comment <- c(comment, nextLine)
@@ -27,8 +27,8 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
   nextLine <- "#* DESCRIPTION: "
   # Note hard-coding of bounds below (and elsewhere with 75)
-  firstLine <- 76 - nchar(nextLine)
-  wrappedText <- wrap(description, 76, firstLine, "   ")
+  firstLine <- commentWidth - nchar(nextLine)
+  wrappedText <- wrap(description, commentWidth, firstLine, "   ")
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
 
@@ -50,8 +50,8 @@ cmnt_header <- function(name, version, description, author, date, assump,
   comment <- c(comment, nextLine)
 
   nextLine <- "#* ASSUMPTIONS: "
-  firstLine <- 76 - nchar(nextLine)
-  wrappedText <- wrap(assump, 76, firstLine, "   ")
+  firstLine <- commentWidth - nchar(nextLine)
+  wrappedText <- wrap(assump, commentWidth, firstLine, "   ")
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   comment <- c(comment, nextLine)
 
@@ -91,11 +91,31 @@ cmnt_header <- function(name, version, description, author, date, assump,
     }
   }
   nextLine <- "#* - Datasets: "
-  # wrappedText <- wrap(wrappedText, 70, 76-nchar(nextLine))
-  # print(wrappedText)
+  wrappedText <- wrap(wrappedText, commentWidth, commentWidth-nchar(nextLine), "")
+  nextLine <- paste(sep="", nextLine, wrappedText[1])
+  comment <- c(comment, nextLine)
+  nextLine <- "#*"
+  comment <- c(comment, nextLine)
 
 
+  nextLine <- "#* OUTPUTS:"
+  comment <- c(comment, nextLine)
 
+  wrappedText <- ""
+  for(i in 1:length(outputs)) {
+    if(nchar(wrappedText) == 0) {
+      wrappedText <- outputs[i]
+    }
+    else {
+      wrappedText <- paste(sep=", ", wrappedText, outputs[i])
+    }
+  }
+  nextLine <- "#* - Datasets: "
+  wrappedText <- wrap(wrappedText, commentWidth, commentWidth-nchar(nextLine), "")
+  nextLine <- paste(sep="", nextLine, wrappedText[1])
+  comment <- c(comment, nextLine)
+  nextLine <- "#*"
+  comment <- c(comment, nextLine)
   return(comment)
 }
 

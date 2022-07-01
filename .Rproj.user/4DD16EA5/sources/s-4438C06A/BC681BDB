@@ -3,7 +3,7 @@
     "path": "~/witchcraft/cmntr/R/cmntr.R",
     "project_path": "R/cmntr.R",
     "type": "r_source",
-    "hash": "2787491200",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1656516509297.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "59,35",
-        "scrollLine": "28"
+        "cursorPosition": "12,73",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1656628842,
+    "lastKnownWriteTime": 1656639121,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1656628842485,
+    "last_content_update": 1656639121260,
     "read_only": false,
     "read_only_alternatives": []
 }
