@@ -1,11 +1,6 @@
 library(stringi)
 
-
-
-
-
-
-# Comment class constructor
+# Comment constructor
 
 new_comment <- function(name, version, description, author, date, assump, params, inputs, outputs, dependencies) {
   x<-list()
@@ -22,8 +17,6 @@ new_comment <- function(name, version, description, author, date, assump, params
   return(structure(x, class = "comment"))
 }
 
-# Validator/Helper
-
 comment <- function(name, version, description, author, date, assump, params, inputs, outputs, dependencies) {
   stopifnot(is.character(name))
   stopifnot(is.character(version))
@@ -38,11 +31,6 @@ comment <- function(name, version, description, author, date, assump, params, in
   return(new_comment(name, version, description, author, date, assump, params, inputs, outputs, dependencies))
 }
 
-
-
-
-
-
 cmnt_banner <- function(content) {
 
   line1 <- paste(sep="", "#", strrep("*", commentWidth-1))
@@ -53,8 +41,12 @@ cmnt_banner <- function(content) {
   return(c(line1, line2, line3))
 }
 
+
+# Returns a list containing two elements: Rendered comment (1st) and a comment object (2nd)
 cmnt_header <- function(name, version, description, author, date, assump,
                         params, inputs, outputs, dependencies, commentWidth = 76) {
+  userComment <- comment(name, version, description, author, date, assump,
+                         params, inputs, outputs, dependencies)
   nextLine <- paste(sep="", "#", strrep("*",commentWidth-1))
   commentVec <- vector()
   commentVec <- c(commentVec, nextLine)
@@ -157,9 +149,10 @@ cmnt_header <- function(name, version, description, author, date, assump,
   wrappedText <- wrap(wrappedText, commentWidth, commentWidth-nchar(nextLine), "")
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   commentVec <- c(commentVec, nextLine)
+
   nextLine <- "#*"
   commentVec <- c(commentVec, nextLine)
-  return(commentVec)
+  return(list(commentVec, userComment))
 }
 
 
