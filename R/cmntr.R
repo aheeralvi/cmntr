@@ -107,6 +107,18 @@ cmnt_header <- function(name, version, description, author, date, assump,
   for(i in 1:length(paramNames)) {
 
     wrappedText <- wrap(params[i], commentWidth, commentWidth - nchar(paramNames[i]) - 5,"   ")
+    numLines <- length(wrappedText)
+    for(j in 1:numLines) {
+      if(j==1) {
+        nextLine <- paste(sep="", "#* - ", paramNames[i], ": ", wrappedText[j])
+        commentVec <- c(commentVec, nextLine)
+      }
+      else {
+        nextLine <- paste(sep="", "#* -   ", wrappedText[j])
+        commentVec <- c(commentVec, nextLine)
+      }
+
+    }
 
   }
 
@@ -152,6 +164,15 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
   nextLine <- "#*"
   commentVec <- c(commentVec, nextLine)
+
+
+  nextLine <- "#* DEPENDENCIES:"
+  commentVec <- c(commentVec, nextLine)
+
+  depNames <- names(dependencies)
+  for(i in 1:length(depNames)) {
+
+  }
   return(list(commentVec, userComment))
 }
 
