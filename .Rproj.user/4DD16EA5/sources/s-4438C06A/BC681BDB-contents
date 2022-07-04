@@ -27,7 +27,7 @@ comment <- function(name, version, description, author, date, assump, params, in
   stopifnot(is.list(params))
   stopifnot(is.vector(inputs))
   stopifnot(is.vector(outputs))
-  stopifnot(is.character(dependencies))
+  stopifnot(is.list(dependencies))
   return(new_comment(name, version, description, author, date, assump, params, inputs, outputs, dependencies))
 }
 
@@ -105,7 +105,7 @@ cmnt_header <- function(name, version, description, author, date, assump,
   # print(params)
   # print(length(paramNames))
   for(i in 1:length(paramNames)) {
-    wrappedText <- wrap(params[i], commentWidth, commentWidth - nchar(paramNames[i]) - 5,"   ")
+    wrappedText <- wrap(params[i], commentWidth-5, commentWidth - nchar(paramNames[i]) - 5,"   ")
     numLines <- length(wrappedText)
     for(j in 1:numLines) {
       if(j==1) {
@@ -113,7 +113,7 @@ cmnt_header <- function(name, version, description, author, date, assump,
         commentVec <- c(commentVec, nextLine)
       }
       else {
-        nextLine <- paste(sep="", "#* -   ", wrappedText[j])
+        nextLine <- paste(sep="", "#* - ", wrappedText[j])
         commentVec <- c(commentVec, nextLine)
       }
     }
@@ -165,10 +165,21 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
   nextLine <- "#* DEPENDENCIES:"
   commentVec <- c(commentVec, nextLine)
-
   depNames <- names(dependencies)
-  for(i in 1:length(depNames)) {
 
+  for(i in 1:length(depNames)) {
+    wrappedText <- wrap(dependencies[i], commentWidth-5, commentWidth - nchar(depNames[i]) - 5,"   ")
+    numLines <- length(wrappedText)
+    for(j in 1:numLines) {
+      if(j==1) {
+        nextLine <- paste(sep="", "#* - ", depNames[i], ": ", wrappedText[j])
+        commentVec <- c(commentVec, nextLine)
+      }
+      else {
+        nextLine <- paste(sep="", "#* - ", wrappedText[j])
+        commentVec <- c(commentVec, nextLine)
+      }
+    }
   }
   return(list(commentVec, userComment))
 }
@@ -207,6 +218,7 @@ wrap <- function(str, lineLength, firstLine, indentStr) {
   }
 
   return(full)
+
 
 }
 
