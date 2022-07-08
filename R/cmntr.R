@@ -17,6 +17,7 @@ new_comment <- function(name, version, description, author, date, assump, params
   return(structure(x, class = "comment"))
 }
 
+
 comment <- function(name, version, description, author, date, assump, params, inputs, outputs, dependencies) {
   stopifnot(is.character(name))
   stopifnot(is.character(version))
@@ -31,7 +32,45 @@ comment <- function(name, version, description, author, date, assump, params, in
   return(new_comment(name, version, description, author, date, assump, params, inputs, outputs, dependencies))
 }
 
-cmnt_banner <- function(content) {
+print.comment <- function(x, ..., verbose = FALSE) {
+  if(verbose) {
+    print(as.list(unclass(x)))
+  }
+  else {
+    for(nm in names(x)) {
+      if(length(x[[nm]]) > 1) {
+        cat(paste(sep="","-", nm, ":","\n"))
+        if(typeof(x[[nm]]) == "list") {
+          for(innerNames in names(x[[nm]])) {
+            cat(paste(sep="", "*  ", innerNames, ": ", x[[nm]][[innerNames]], "\n"))
+          }
+        }
+        else if(typeof(x[[nm]]) == "vector" || typeof(x[[nm]])== "character") {
+          vecLine <-""
+          for(i in 1:length(x[[nm]])) {
+            if(i==1) {
+              vecLine <- paste(sep="", "*  ", x[[nm]][1])
+            }
+            else {
+              vecLine <- paste(sep="", vecLine, ", ", x[[nm]][i])
+            }
+          }
+          cat(vecLine)
+          cat("\n")
+        }
+      }
+      else {
+        cat(paste(sep="", "-", nm, ": ", x[[nm]], "\n"))
+      }
+
+    }
+  }
+  invisible(x)
+}
+
+
+
+cmnt_banner <- function(content, commentWidth = 76) {
 
   line1 <- paste(sep="", "#", strrep("*", commentWidth-1))
   line2 <- ""
@@ -68,7 +107,6 @@ cmnt_header <- function(name, version, description, author, date, assump,
 
   if(length(wrappedText) >= 2) {
     for(i in 2:length(wrappedText)) {
-      # Note hard-coding of indent
       nextLine <- paste(sep="", "#*", wrappedText[i])
       commentVec <- c(commentVec, nextLine)
     }
@@ -158,7 +196,6 @@ cmnt_header <- function(name, version, description, author, date, assump,
   wrappedText <- wrap(wrappedText, commentWidth, commentWidth-nchar(nextLine), "")
   nextLine <- paste(sep="", nextLine, wrappedText[1])
   commentVec <- c(commentVec, nextLine)
-
   nextLine <- "#*"
   commentVec <- c(commentVec, nextLine)
 
@@ -218,8 +255,6 @@ wrap <- function(str, lineLength, firstLine, indentStr) {
   }
 
   return(full)
-
-
 }
 
 

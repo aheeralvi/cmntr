@@ -1,11 +1,3 @@
-
-# Functions and UI
-# Read and write header
-# Read and write roxygen
-
-# Package name: cmntr
-
-
 #**************************************************************************
 #* NAME: m_utl_sasmac.sas
 #**************************************************************************
@@ -49,6 +41,10 @@
 
 
 
+#***************************************************************************
+#***                        this is another test                         ***
+#***************************************************************************
+
 
 library(shiny)
 library(miniUI)
@@ -79,7 +75,7 @@ bannerCommentDialog <- function() {
       }
     })
   } # End Server
-  viewer <- dialogViewer("Comments")
+  viewer <- dialogViewer("Create Banner Comment")
   runGadget(ui, server, viewer = viewer)
 } # End Gadget
 
