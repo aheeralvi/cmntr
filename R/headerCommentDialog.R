@@ -27,8 +27,6 @@ headerCommentDialog <- function() {
   ) # End UI
 
 
-
-
   server <- function(input, output, session) {
     com <- getSourceEditorContext()
     header <- com$contents
@@ -46,7 +44,19 @@ headerCommentDialog <- function() {
       print(assump)
       paramList <- list()
       dependList <- list()
-      print(getListNames("PARAMETERS:", header))
+      tempNames <- getListNames("PARAMETERS:", header)
+      for(i in 1:length(tempNames)) {
+        listContents <- getWrapField(paste0(tempNames[i], ":"), header, "   ")
+        paramList[[tempNames[i]]] <- listContents
+      }
+      print(paramList)
+
+      tempNames <- getListNames("DEPENDENCIES:", header)
+      for(i in 1:length(tempNames)) {
+        listContents <- getWrapField(paste0(tempNames[i],":"), header, "   ")
+        dependList[[tempNames[i]]] <- listContents
+      }
+      print(dependList)
     })
 
     output$document <- renderCode({
@@ -111,7 +121,7 @@ getListNames <- function(strField, headerComment) {
         # print(ifNam)
         ifInd <- grepl("   ", headerComment[counter])
         if(ifNam) {
-          print(headerComment[counter])
+          # print(headerComment[counter])
           # PROBLEM RIGHT HERE!?
           startFrom <- as.list(stri_locate_first_regex(headerComment[counter], " - "))
           endWith <- as.list(stri_locate_first_regex( headerComment[counter], ":"))

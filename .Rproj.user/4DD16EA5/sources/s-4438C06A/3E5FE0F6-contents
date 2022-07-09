@@ -24,7 +24,7 @@
 #* - Datasets: None
 #* - Global Macro Variables: None
 #*
-#* DEPENDANCIES:
+#* DEPENDENCIES:
 #* - Packages: None
 #* - Functions: None
 #* - Formats: None

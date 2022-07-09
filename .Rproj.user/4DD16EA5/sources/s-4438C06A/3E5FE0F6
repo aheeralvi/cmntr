@@ -3,7 +3,7 @@
     "path": "~/witchcraft/cmntr/R/bannerCommentDialog.R",
     "project_path": "R/bannerCommentDialog.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "2527264934",
     "contents": "",
     "dirty": false,
     "created": 1656471790654.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "68,9",
-        "scrollLine": "62"
+        "cursorPosition": "26,10",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1657218048,
+    "lastKnownWriteTime": 1657391930,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1657218048245,
+    "last_content_update": 1657391930195,
     "read_only": false,
     "read_only_alternatives": []
 }
