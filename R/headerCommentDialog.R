@@ -113,11 +113,11 @@ getListNames <- function(strField, headerComment) {
         if(ifNam) {
           print(headerComment[counter])
           # PROBLEM RIGHT HERE!?
-          from <- as.list(stri_locate_first_fixed(" - ", headerComment[counter]))
-          to <- as.list(stri_locate_first_fixed(":", headerComment[counter]))
-          print(from)
-          print(to)
-          holder <- stri_sub(headerComment[counter], from = from[[2]][1] + 3, to = to[[2]][1])
+          startFrom <- as.list(stri_locate_first_regex(headerComment[counter], " - "))
+          endWith <- as.list(stri_locate_first_regex( headerComment[counter], ":"))
+          # print(startFrom)
+          # print(endWith)
+          holder <- stri_sub(headerComment[counter], from = startFrom[[2]][1] + 1, to = endWith[[2]][1]-1)
           # print(holder)
           retVal <- c(retVal, holder)
           counter <- counter + 1
